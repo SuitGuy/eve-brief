@@ -15,3 +15,15 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep public class com.google.android.gms.**
+-keepclassmembers class * extends com.google.gdata.model.Element {
+    public static com.google.gdata.model.ElementKey KEY;
+    public static void registerMetadata(com.google.gdata.model.MetadataRegistry);
+}
+
+-dontwarn com.google.android.gms.**
+-dontwarn com.google.**
+-dontwarn java.nio.file.Files
+-dontwarn java.nio.file.Path
+-dontwarn java.nio.file.OpenOption
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement

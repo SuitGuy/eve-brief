@@ -1,4 +1,4 @@
-package com.example.paul.evebrief;
+package com.paul.evebrief;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +17,7 @@ public class Brief {
     private String date;
     private String pdfLocation;
     private String imageUrl;
-    private BriefAdapter ba;
+    private com.paul.evebrief.BriefAdapter ba;
     private Bitmap image;
 
     public Brief(String title, String date, String  pdfLocation, String imageLocation, String publication){

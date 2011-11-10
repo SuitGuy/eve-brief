@@ -1,4 +1,4 @@
-package com.example.paul.evebrief;
+package com.paul.evebrief;
 
 import java.util.ArrayList;
 

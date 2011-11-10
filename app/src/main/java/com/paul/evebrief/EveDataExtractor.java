@@ -1,4 +1,4 @@
-package com.example.paul.evebrief;
+package com.paul.evebrief;
 
 import com.google.gdata.client.spreadsheet.FeedURLFactory;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
@@ -33,6 +33,8 @@ public class EveDataExtractor {
      */
     private static String EVE_BRIEF_KEY = "1ffdJWvEaNAWuURYuLvzGep2Esl52O-A_YQgWwMXzbJ4";
     private static String INV_BRIEF_KEY = "1R-eV0VViIHC1VyNf8ax1DBTZGPAqk7RrNEyjEaURJ7s";
+    private static String ENGAGE_KEY = "14Zu28ZeLOCLnPcIpik4k893IRujPJH3pYQLjPXtLIH4";
+    private static String RATING_NEWS_UPDATE_KEY = "1jGybpd7leHiHU2ZhOzFFPFubDWe8q-fHiKC4mPkRaOg";
     public static ArrayList<Brief> extractEveBriefData(String briefType) throws MalformedURLException, IOException, ServiceException {
         //create a feed for the Worksheet
         SpreadsheetService service = new SpreadsheetService("Test");
@@ -40,9 +42,13 @@ public class EveDataExtractor {
         URL spreadSheetUrl;
               if(briefType.equalsIgnoreCase("EveBrief")) {
             spreadSheetUrl = fact.getWorksheetFeedUrl(EVE_BRIEF_KEY, "public", "basic");
-        }else {
+        }else if(briefType.equalsIgnoreCase("InvBrief")){
             spreadSheetUrl = fact.getWorksheetFeedUrl(INV_BRIEF_KEY, "public", "basic");
-        }
+        }else if (briefType.equalsIgnoreCase("Engage")){
+            spreadSheetUrl = fact.getWorksheetFeedUrl(ENGAGE_KEY, "public", "basic");
+              }else {
+                  spreadSheetUrl = fact.getWorksheetFeedUrl(RATING_NEWS_UPDATE_KEY, "public", "basic");
+              }
 
         System.out.println("spreadsheetUrl: " + spreadSheetUrl.toString());
         WorksheetFeed feed = service.getFeed(spreadSheetUrl, WorksheetFeed.class);

@@ -1,4 +1,4 @@
-package com.example.paul.evebrief;
+package com.paul.evebrief;
 
 import android.app.Activity;
 import android.os.Bundle;

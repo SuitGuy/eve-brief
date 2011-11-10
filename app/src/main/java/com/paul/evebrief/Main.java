@@ -1,4 +1,4 @@
-package com.example.paul.evebrief;
+package com.paul.evebrief;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -38,6 +38,7 @@ public class Main extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle = "EveBrief";
+    private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -47,12 +48,12 @@ public class Main extends ActionBarActivity {
         initialiseBriefPage();
     }
     private void createNavigationDrawer(){
-        Toolbar mtoolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(mtoolbar);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
          mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mtoolbar,R.string.drawer_open, R.string.drawer_close){
+         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -68,7 +69,7 @@ public class Main extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerList = (ListView)findViewById(R.id.navList);
-        String[] briefArray = {"EveBrief", "InvBrief", "Engage", "We Know London"};
+        String[] briefArray = {"EveBrief", "InvBrief", "Engage", "Rating News Update"};
         mDrawerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, briefArray);
         mDrawerList.setAdapter(mDrawerAdapter);
 
@@ -77,6 +78,7 @@ public class Main extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView clicked = (TextView) view;
                 String selectedBrief = ""+clicked.getText();
+                mToolbar.setTitle(clicked.getText());
                 //Toast.makeText(Main.this, "You Clicked : " + selectedBrief, Toast.LENGTH_SHORT).show();
                 briefSelected = selectedBrief;
                 try {
@@ -170,7 +172,7 @@ public class Main extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

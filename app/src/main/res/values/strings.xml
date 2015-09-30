@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EveBrief</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_eve__pdf__viewer">Eve_PDF_Viewer</string>
+    <string-array name="briefs">
+        <item>EveBrief</item>
+        <item>InvBrief</item>
+        <item>Engage</item>
+        <item>Rating News Update</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="loadMore">Click here to load more...</string>
+    <string name="menu">menu</string>
+</resources>

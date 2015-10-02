@@ -20,7 +20,10 @@ public class Eve_PDF_Viewer extends Activity {
 
         WebView mWebView=new WebView(Eve_PDF_Viewer.this);
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.loadUrl("https://docs.google.com/gview?embedded=true&url="+pdfLocation);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.getSettings().setDisplayZoomControls(false);
+        mWebView.loadUrl("https://docs.google.com/gview?embedded=true&url=" +pdfLocation);
+
         setContentView(mWebView);
     }
 

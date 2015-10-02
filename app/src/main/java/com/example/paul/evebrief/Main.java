@@ -1,10 +1,13 @@
 package com.example.paul.evebrief;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class Main extends Activity{
+public class Main extends ActionBarActivity {
 
     private int noDisplayed = 0;
     private DisplayedBriefs displayedBriefs;
@@ -32,13 +35,37 @@ public class Main extends Activity{
     private ArrayList<Brief> briefs;
     private BriefAdapter lvadapter;
     private ArrayList<String> titles;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle = "EveBrief";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
 
         initialiseBriefPage();
     }
     private void createNavigationDrawer(){
+        Toolbar mtoolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(mtoolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mtoolbar,R.string.drawer_open, R.string.drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerList = (ListView)findViewById(R.id.navList);
         String[] briefArray = {"EveBrief", "InvBrief", "Engage", "We Know London"};
@@ -79,6 +106,7 @@ public class Main extends Activity{
     private void initialiseBriefPage() {
         //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main2);
+
 
         createNavigationDrawer();
 
@@ -152,10 +180,24 @@ public class Main extends Activity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 }

@@ -29,6 +29,7 @@ public class Brief {
         this.image = null;
     }
 
+    //old load methodology that causes freezes in the GUI.
   /*  public Bitmap loadImage() {
         Log.i("ImageLoadTask", "Attempting to load image URL: " + imageUrl);
         try {
@@ -64,6 +65,11 @@ public class Brief {
     }
     public String getPublication(){ return publication;}
 
+    /**
+     * using an AsyncTask allows a sketchy network connection to slowly load in the images
+     * without affecting the usibility for the GUI. The previous version caused stuttering and was
+     * unusable on a slow network connection.
+     */
     private class ImageLoadTask extends AsyncTask<String, String, Bitmap> {
 
         @Override
@@ -91,6 +97,11 @@ public class Brief {
         protected void onProgressUpdate(String... progress) {
             // NO OP
         }
+
+        /**
+         *  once the image is downloaded we can set the image to its brief so it can be displayed in
+         *  the GUI
+         */
 
         protected void onPostExecute(Bitmap ret) {
             if (ret != null) {

@@ -41,18 +41,21 @@ public class Main extends ActionBarActivity {
     private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-
         initialiseBriefPage();
     }
+
+    /**
+     * create the navigation draw which allows the user to select which brief they wish to view.
+     */
     private void createNavigationDrawer(){
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
          mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        //create the draw toggle which will open and close draw with animation.
          mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -68,19 +71,24 @@ public class Main extends ActionBarActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        //populate the draw with the list of possible briefs
         mDrawerList = (ListView)findViewById(R.id.navList);
         String[] briefArray = {"EveBrief", "InvBrief", "Engage", "Rating News Update"};
         mDrawerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, briefArray);
         mDrawerList.setAdapter(mDrawerAdapter);
 
+        //reload data and include new briefs when different publication is selected.
         mDrawerList.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView clicked = (TextView) view;
                 String selectedBrief = ""+clicked.getText();
                 mToolbar.setTitle(clicked.getText());
+                //debug toast to check that the selection is correct
                 //Toast.makeText(Main.this, "You Clicked : " + selectedBrief, Toast.LENGTH_SHORT).show();
                 briefSelected = selectedBrief;
+
+                //run the data extractor to retrieve the data for the selected publication
                 try {
                     briefs = EveDataExtractor.extractEveBriefData(selectedBrief);
                     displayedBriefs = new DisplayedBriefs();
@@ -98,6 +106,8 @@ public class Main extends ActionBarActivity {
                 } catch (ServiceException e) {
                     e.printStackTrace();
                 }
+
+                //trigger state changed
                 lvadapter.notifyDataSetChanged();
                 DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
                 mDrawerLayout.closeDrawers();
@@ -105,25 +115,27 @@ public class Main extends ActionBarActivity {
         });
     }
 
+    /**
+     * helper method for the android onCreate() method that handles the setup of the launch page
+     * and the generation of the page components.
+     */
     private void initialiseBriefPage() {
         //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main2);
-
-
         createNavigationDrawer();
 
-
+        //enable multiple threads one to create networking thread that retieves data
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
+        //error handeling if for any reason the briefs cannot be loaded or the data connection fails.
         try {
             briefs = EveDataExtractor.extractEveBriefData(briefSelected);
             if(briefs == null || briefs.size() < 1) {
                 Toast.makeText(Main.this, "no Briefs where found", Toast.LENGTH_LONG).show();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServiceException e) {
@@ -146,6 +158,8 @@ public class Main extends ActionBarActivity {
         lv.setAdapter(lvadapter);
 
 
+        //initialise the loadmore button at the bottom of the page so that it loads in 5 more
+        //briefs.
         lv.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
@@ -178,9 +192,6 @@ public class Main extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;

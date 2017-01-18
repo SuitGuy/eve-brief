@@ -31,15 +31,19 @@ public class EveDataExtractor {
      * @throws java.io.IOException
      * @throws ServiceException
      */
+
+    //These keys are used to identify the spread sheet where the sheet is stored
     private static String EVE_BRIEF_KEY = "1ffdJWvEaNAWuURYuLvzGep2Esl52O-A_YQgWwMXzbJ4";
     private static String INV_BRIEF_KEY = "1R-eV0VViIHC1VyNf8ax1DBTZGPAqk7RrNEyjEaURJ7s";
     private static String ENGAGE_KEY = "14Zu28ZeLOCLnPcIpik4k893IRujPJH3pYQLjPXtLIH4";
     private static String RATING_NEWS_UPDATE_KEY = "1jGybpd7leHiHU2ZhOzFFPFubDWe8q-fHiKC4mPkRaOg";
+
     public static ArrayList<Brief> extractEveBriefData(String briefType) throws MalformedURLException, IOException, ServiceException {
         //create a feed for the Worksheet
         SpreadsheetService service = new SpreadsheetService("Test");
         FeedURLFactory fact = FeedURLFactory.getDefault();
         URL spreadSheetUrl;
+        //access the correct data store based on the brief type being displayed
               if(briefType.equalsIgnoreCase("EveBrief")) {
             spreadSheetUrl = fact.getWorksheetFeedUrl(EVE_BRIEF_KEY, "public", "basic");
         }else if(briefType.equalsIgnoreCase("InvBrief")){
@@ -49,7 +53,7 @@ public class EveDataExtractor {
               }else {
                   spreadSheetUrl = fact.getWorksheetFeedUrl(RATING_NEWS_UPDATE_KEY, "public", "basic");
               }
-
+        //debug the spreadsheet url to the system output
         System.out.println("spreadsheetUrl: " + spreadSheetUrl.toString());
         WorksheetFeed feed = service.getFeed(spreadSheetUrl, WorksheetFeed.class);
 
@@ -94,6 +98,7 @@ public class EveDataExtractor {
                         break;
                     case 5:
                         imageLocation = cell.getPlainTextContent();
+                        //add constructed brief to the list of known briefs
                         briefs.add(new Brief(title, date, pdfLocation, imageLocation, publication));
                         data = 1;
                 }

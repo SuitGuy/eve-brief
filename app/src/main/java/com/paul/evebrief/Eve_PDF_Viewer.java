@@ -18,10 +18,13 @@ public class Eve_PDF_Viewer extends Activity {
         }
         setContentView(R.layout.activity_eve_pdf_viewer);
 
+        //settings for the web view to make it pdf friendly
         WebView mWebView=new WebView(Eve_PDF_Viewer.this);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setDisplayZoomControls(false);
+
+        //google's url that automatically displays pdf files on the internet in a web view.
         mWebView.loadUrl("https://docs.google.com/gview?embedded=true&url=" +pdfLocation);
 
         setContentView(mWebView);

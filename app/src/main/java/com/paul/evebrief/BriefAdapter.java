@@ -43,6 +43,13 @@ public class BriefAdapter extends BaseAdapter {
         return position;
     }
 
+    /**
+     * addapter that loads the list with the eve brief information when it is retrieved.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
